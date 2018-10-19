@@ -11,28 +11,53 @@
             <input id="files" name="files" type="file" size="1" multiple />
         </div>
         <div class="form-group">
-            <button type="button" onclick="uploadFiles('files');">Upload</button>
+            <button type="button" onclick="uploadFiles('files');">Process</button>
         </div>
     </form>
 
     <div id="uploads" style="display:none;">
         <h3>Uploads</h3>
-        <ul id="images"></ul>
+        
+        <table class="table  table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Update date</th>
+                    <th scope="col">Width x Height</th>
+                    <th scope="col">Original</th>
+                    <th scope="col">Height: 300</th>
+                </tr>
+            </thead>
+            <tbody id="images">
+                </tbody>
+            </table>
     </div>
 </section>
 @if((ViewData["historic"] as List<Picture>).Any()) { 
 <secction id="historic">
     <h2>Historic files</h2>
-    <ul>
-        @foreach (var h in ViewData["historic"] as List<Picture>)
-        {
-            <li>
-                @h.OriginalName
-                @Html.ActionLink("Original", "GetImage", "Home", new { id = h.Id }, new { target = "_blank" })
-                @Html.ActionLink("Resized300", "GetImage", "Home", new { id = h.Id, size = 300 }, new { target = "_blank" })
-
-            </li>
-        }
-    </ul>
+    <table class="table  table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Update date</th>
+                <th scope="col">Width x Height</th>
+                <th scope="col">Original</th>
+                <th scope="col">Height: 300</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in ViewData["historic"] as List<Picture>)
+            {
+                <tr scope="row">
+                    <td>@h.OriginalName</td>
+                    <td>@h.DateUploadFormated</td>
+                    <td>@h.Width x @h.Height</td>
+                    <td>@Html.ActionLink("Link ("+h.LengthKB +"KB)", "GetImage", "Home", new { id = h.Id }, new { target = "_blank" })</td>
+                    <td>@Html.ActionLink("Link (" + h.Length300KB + "KB)", "GetImage", "Home", new { id = h.Id, size = 300 }, new { target = "_blank" })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </secction>
 }

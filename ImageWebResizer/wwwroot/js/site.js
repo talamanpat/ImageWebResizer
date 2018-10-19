@@ -15,40 +15,44 @@
             contentType: false,
             type: "POST",
             success: function (data) {
-
-                console.log(data);
                 for (var i = 0; i < data.stored.length; i++) {
 
                     createList(data.stored[i]);
                     processImage(data.stored[i]);
                 }
+                input.value = "";
             }
         }
     );
 }
 function processImage(picture) {
+    var rowId = "#l-" + picture.id;
+    $(rowId+ " .l-sizes").html("Processing...");
     $.ajax(
         {
             url: "/Home/ResizeTo300/" + picture.id,
-            //            data: id,
-            //        processData: false,
-            //        contentType: false,
             type: "GET",
             success: function (data) {
-                console.log(data);
-                $("#l-" + data.picture.id + " .l-sizes").html(
-                    '<a href="/Home/GetImage/' + data.picture.id + '" target="_blank">Original</a> <a href="/Home/GetImage/' + data.picture.id + '?size=300" target="_blank">Resized300</a>'
-                );
-
+                $(rowId + " .l-original").html(getImageLink("Link (" + data.picture.lengthKB+ " KB)", data.picture));
+                $(rowId + " .l-300").html(getImageLink("Link (" + data.picture.length300KB + " KB)", data.picture,300))
             }
+
         }
     );
 }
 
 function createList(picture) {
-    $("#uploads #images").append(
-        '<li id="l-' + picture.id + '"><span class="l-name">' + picture.originalName + '</span> <span class="l-sizes">Processing...</span></li>'
-    );
-
+    var row = '<tr id="l-' + picture.id + '"><td class="l-name">' + picture.originalName + '</td> '
+    row += '<td>' + picture.dateUploadFormated +'<td>'+picture.width+' x '+picture.height+'</td></td><td class="l-sizes l-original"></td><td class="l-sizes l-300"></td></tr>'; 
+    $("#images").prepend(row);
     $("#uploads").fadeIn('slow');
+}
+
+function getImageLink(linkText,picture,size=null) {
+    var link = $("<a />", {
+        href: "/Home/GetImage/" + picture.id+(size===null?"":"?size="+size),
+        text: linkText,
+        target:"_blank"
+    });
+    return link;
 }

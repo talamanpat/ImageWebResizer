@@ -32,7 +32,7 @@ namespace ImageWebResizer.Controllers
             var stored = new List<Picture>();
             foreach (var formFile in files)
             {
-                if (formFile.Length > 0 && (new string[] { ".JPG", ".PNG" }).Contains(Path.GetExtension(formFile.FileName).ToUpper()))
+                if (formFile.Length > 0 && (new string[] { ".JPG",".JPEG",".BMP", ".PNG" }).Contains(Path.GetExtension(formFile.FileName).ToUpper()))
                 {
                     var filename = "img" + getRandomFilename(formFile.FileName);
                     var pathname = filePath + filename;
@@ -40,6 +40,19 @@ namespace ImageWebResizer.Controllers
                     {
                         await formFile.CopyToAsync(stream);
                     }
+                    //----dimensions
+                    int _height =0;
+                    int _width =0;
+
+                    using (MagickImage image = new MagickImage(pathname))
+                    {
+                        _height = image.Height;
+                        _width = image.Width;
+                        
+                    }
+                    //----
+
+
                     using (var db = new StoreContext())
                     {
                         var p = new Picture
@@ -50,8 +63,8 @@ namespace ImageWebResizer.Controllers
                             FileName = filename,
                             Name = formFile.Name,
                             Length = formFile.Length,
-                            Height = 0,
-                            Width = 0,
+                            Width = _width,
+                            Height = _height,
                             PathOriginal = pathname
                         };
                         db.Pictures.Add(p);
@@ -71,13 +84,13 @@ namespace ImageWebResizer.Controllers
 
             using (var db = new StoreContext())
             {
-                Picture Picture = db.Pictures.FirstOrDefault(x => x.Id.Equals(id));
+                Picture picture = db.Pictures.FirstOrDefault(x => x.Id.Equals(id));
 
-                if (Picture == null)
+                if (picture == null)
                     return Ok(new { result = false });
 
                 // Read from file
-                using (MagickImage image = new MagickImage(Picture.PathOriginal))
+                using (MagickImage image = new MagickImage(picture.PathOriginal))
                 {
                     MagickGeometry size = new MagickGeometry(0, 300)
                     {
@@ -85,12 +98,15 @@ namespace ImageWebResizer.Controllers
                     };
 
                     image.Resize(size);
-                    Picture.Path300 = filePath + "300" + id;
+                    picture.Path300 = filePath + "300" + id;
                     // Save the result
-                    image.Write(Picture.Path300);
+                    image.Write(picture.Path300);
                 }
+
+
+                picture.Length300 = new FileInfo(picture.Path300).Length;
                 db.SaveChanges();
-                return Ok(new { result = true, Picture });
+                return Ok(new { result = true, picture });
             }
 
         }
@@ -159,5 +175,7 @@ namespace ImageWebResizer.Controllers
             path += Path.GetExtension(name);
             return path;
         }
+
+
     }
 }
