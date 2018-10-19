@@ -1,4 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using ImageWebResizer.Models;
+@{
+    ViewData["Title"] = "Image resizer";
 }
 
+<section id="tool">
+    <h2>Choose images to resize:</h2>
+    <form enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <div class="label">File to upload:</div>
+            <input id="files" name="files" type="file" size="1" multiple />
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="uploadFiles('files');">Upload</button>
+        </div>
+    </form>
+
+    <div id="uploads" style="display:none;">
+        <h3>Uploads</h3>
+        <ul id="images"></ul>
+    </div>
+</section>
+@if((ViewData["historic"] as List<Picture>).Any()) { 
+<secction id="historic">
+    <h2>Historic files</h2>
+    <ul>
+        @foreach (var h in ViewData["historic"] as List<Picture>)
+        {
+            <li>
+                @h.OriginalName
+                @Html.ActionLink("Original", "GetImage", "Home", new { id = h.Id }, new { target = "_blank" })
+                @Html.ActionLink("Resized300", "GetImage", "Home", new { id = h.Id, size = 300 }, new { target = "_blank" })
+
+            </li>
+        }
+    </ul>
+</secction>
+}
