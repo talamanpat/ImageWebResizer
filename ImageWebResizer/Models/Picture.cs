@@ -14,10 +14,11 @@ namespace ImageWebResizer.Models
         public string Path300 { get; set; }
         public int? Width { get; set; }
         public int? Height { get; set; }
-        public long? Length { get; }
-        public string Name { get; }
-        public string OriginalName { get; }
-        public string FileName { get; }
+        public long? Length { get; set; }
+        public long? Length300 { get; set; }
+        public string Name { get; set; }
+        public string OriginalName { get;set; }
+        public string FileName { get; set; }
         
 
     }

@@ -23,7 +23,17 @@ namespace ImageWebResizer.Migrations
 
                     b.Property<DateTime>("DateUpload");
 
+                    b.Property<string>("FileName");
+
                     b.Property<int?>("Height");
+
+                    b.Property<long?>("Length");
+
+                    b.Property<long?>("Length300");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OriginalName");
 
                     b.Property<string>("Path300");
 

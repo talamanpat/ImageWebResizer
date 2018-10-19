@@ -16,7 +16,12 @@ namespace ImageWebResizer.Migrations
                     PathOriginal = table.Column<string>(nullable: true),
                     Path300 = table.Column<string>(nullable: true),
                     Width = table.Column<int>(nullable: true),
-                    Height = table.Column<int>(nullable: true)
+                    Height = table.Column<int>(nullable: true),
+                    Length = table.Column<long>(nullable: true),
+                    Length300 = table.Column<long>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    OriginalName = table.Column<string>(nullable: true),
+                    FileName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

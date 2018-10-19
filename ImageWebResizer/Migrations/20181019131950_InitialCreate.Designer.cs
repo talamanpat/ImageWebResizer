@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageWebResizer.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20181019125412_InitialCreate")]
+    [Migration("20181019131950_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,17 @@ namespace ImageWebResizer.Migrations
 
                     b.Property<DateTime>("DateUpload");
 
+                    b.Property<string>("FileName");
+
                     b.Property<int?>("Height");
+
+                    b.Property<long?>("Length");
+
+                    b.Property<long?>("Length300");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OriginalName");
 
                     b.Property<string>("Path300");
 
