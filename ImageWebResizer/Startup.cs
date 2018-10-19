@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ImageWebResizer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +11,10 @@ namespace ImageWebResizer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            using (var client = new StoreContext())
+            {
+                client.Database.EnsureCreated();
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -22,6 +23,7 @@ namespace ImageWebResizer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddEntityFrameworkSqlite().AddDbContext<StoreContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

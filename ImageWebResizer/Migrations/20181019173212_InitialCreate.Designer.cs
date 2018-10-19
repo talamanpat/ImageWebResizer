@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageWebResizer.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20181019131950_InitialCreate")]
+    [Migration("20181019173212_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

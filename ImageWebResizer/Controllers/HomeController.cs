@@ -40,6 +40,7 @@ namespace ImageWebResizer.Controllers
                     {
                         await formFile.CopyToAsync(stream);
                     }
+
                     //----dimensions
                     int _height =0;
                     int _width =0;
@@ -51,8 +52,7 @@ namespace ImageWebResizer.Controllers
                         
                     }
                     //----
-
-
+                    
                     using (var db = new StoreContext())
                     {
                         var p = new Picture
@@ -76,8 +76,6 @@ namespace ImageWebResizer.Controllers
 
             return Ok(new { result = true, stored });
         }
-
-
 
         public IActionResult ResizeTo300(string id)
         {
@@ -152,8 +150,6 @@ namespace ImageWebResizer.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Web application for resizing images";
-
             return View();
         }
         

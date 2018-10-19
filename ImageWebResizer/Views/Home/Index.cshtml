@@ -53,8 +53,8 @@
                     <td>@h.OriginalName</td>
                     <td>@h.DateUploadFormated</td>
                     <td>@h.Width x @h.Height</td>
-                    <td>@Html.ActionLink("Link ("+h.LengthKB +"KB)", "GetImage", "Home", new { id = h.Id }, new { target = "_blank" })</td>
-                    <td>@Html.ActionLink("Link (" + h.Length300KB + "KB)", "GetImage", "Home", new { id = h.Id, size = 300 }, new { target = "_blank" })</td>
+                    <td>@Html.ActionLink("Link ("+h.LengthKB +" KB)", "GetImage", "Home", new { id = h.Id }, new { target = "_blank" })</td>
+                    <td>@Html.ActionLink("Link (" + h.Length300KB + " KB)", "GetImage", "Home", new { id = h.Id, size = 300 }, new { target = "_blank" })</td>
                 </tr>
             }
         </tbody>
